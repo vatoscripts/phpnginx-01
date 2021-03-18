@@ -2,7 +2,7 @@
 FROM php:7.4-fpm-alpine
 
 # Set working directory
-WORKDIR /var/www/biokyc
+WORKDIR /var/www/html
 
 # Install Additional dependencies
 RUN apk update && apk add --no-cache \
@@ -26,28 +26,24 @@ RUN apk update && apk add --no-cache \
     php7-zlib
 
 # Add and Enable PHP-PDO Extenstions
-#RUN docker-php-ext-install pdo pdo_mysql mysqli
-#RUN docker-php-ext-enable pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN docker-php-ext-enable pdo_mysql
 
 # Install PHP Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Remove Cache to save space :-)
+# Remove Cache
 RUN rm -rf /var/cache/apk/*
-
-#RUN cd /var/www/biokyc
-
-#RUN composer create-project laravel/laravel biokycdev
 
 # Add UID '1000' to www-data
 RUN usermod -u 1000 www-data
 
 # Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www/biokyc
+COPY --chown=www-data:www-data . /var/www/html
 
 # Change current user to www
 USER www-data
 
-# Expose port 3100 and start php-fpm server
-EXPOSE 3100
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
 CMD ["php-fpm"]
