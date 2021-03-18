@@ -5,7 +5,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: config/dockerfile
+      dockerfile: config/Dockerfile
     #image: christexe/php:7.4-fpm-alpine
     container_name: biokyc-dev-app
     restart: unless-stopped
