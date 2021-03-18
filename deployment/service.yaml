@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: biokyc-dev-service
+  labels:
+    app: biokyc-dev
+spec:
+  type: LoadBalancer
+  selector:
+    app: biokyc-dev
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 3100
